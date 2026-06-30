@@ -47,11 +47,7 @@ export default function AuthPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="mb-8 flex flex-col items-center gap-3">
-          <div className="h-10 w-10 rounded-xl bg-brand-500 flex items-center justify-center">
-            <svg className="h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-            </svg>
-          </div>
+          <img src="/logo.png" alt="FlowPost" className="h-20 w-20 object-contain" />
           <h1 className="text-2xl font-semibold text-gray-900 tracking-tight">FlowPost</h1>
           <p className="text-sm text-gray-500">
             {mode === 'login' ? 'Sign in to your account' : 'Create your account'}

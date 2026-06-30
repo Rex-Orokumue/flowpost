@@ -44,11 +44,7 @@ export default function Sidebar() {
       <aside className="hidden md:flex h-screen w-60 flex-col border-r border-gray-100 bg-white fixed left-0 top-0 z-30">
         {/* Logo */}
         <div className="flex items-center gap-2.5 px-5 h-16 border-b border-gray-100 shrink-0">
-          <div className="h-7 w-7 rounded-lg bg-brand-500 flex items-center justify-center">
-            <svg className="h-4 w-4 text-white" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-            </svg>
-          </div>
+          <img src="/logo.png" alt="FlowPost" className="h-8 w-8 object-contain" />
           <span className="text-base font-semibold text-gray-900 tracking-tight">FlowPost</span>
         </div>
 
