@@ -3,6 +3,7 @@ import { useDisconnectPlatform } from '../hooks'
 import Button from '../../../components/Button'
 import Modal from '../../../components/Modal'
 import toast from 'react-hot-toast'
+import api from '../../../lib/axios'
 
 const PLATFORM_META = {
   linkedin: {
@@ -24,14 +25,21 @@ const PLATFORM_META = {
   },
 }
 
+const COMING_SOON = ['x']
+
 export default function PlatformCard({ platform, connected }) {
   const meta = PLATFORM_META[platform]
   const { mutate: disconnect, isPending } = useDisconnectPlatform()
   const [showConfirm, setShowConfirm] = useState(false)
-  const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+  const isComingSoon = COMING_SOON.includes(platform)
 
-  const handleConnect = () => {
-    window.location.href = `${apiBase}/api/platforms/${platform}/connect`
+  const handleConnect = async () => {
+    try {
+      const { data } = await api.get(`/api/platforms/${platform}/auth`)
+      window.location.href = data.url
+    } catch {
+      toast.error('Failed to start connection. Try again.')
+    }
   }
 
   const handleDisconnect = () => {
@@ -39,6 +47,21 @@ export default function PlatformCard({ platform, connected }) {
       onSuccess: () => { toast.success(`${meta.name} disconnected`); setShowConfirm(false) },
       onError: () => toast.error('Failed to disconnect. Try again.'),
     })
+  }
+
+  if (isComingSoon) {
+    return (
+      <div className="rounded-xl border border-gray-100 bg-gray-50 p-5 flex items-center justify-between gap-4 opacity-60">
+        <div className="flex items-center gap-3">
+          <div className="grayscale">{meta.icon}</div>
+          <div>
+            <p className="text-sm font-semibold text-gray-500">{meta.name}</p>
+            <p className="text-xs text-gray-400 mt-0.5">Coming soon</p>
+          </div>
+        </div>
+        <span className="text-xs font-medium text-gray-400 bg-gray-200 px-2.5 py-1 rounded-full">Coming soon</span>
+      </div>
+    )
   }
 
   return (
@@ -49,7 +72,7 @@ export default function PlatformCard({ platform, connected }) {
           <div>
             <p className="text-sm font-semibold text-gray-900">{meta.name}</p>
             {connected ? (
-              <p className="text-xs text-gray-400 mt-0.5">@{connected.platform_username || 'connected'}</p>
+              <p className="text-xs text-gray-400 mt-0.5">{connected.platform_username || 'connected'}</p>
             ) : (
               <p className="text-xs text-gray-400 mt-0.5">Not connected</p>
             )}

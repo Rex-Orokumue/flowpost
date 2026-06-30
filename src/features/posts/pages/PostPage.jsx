@@ -10,7 +10,7 @@ import Badge from '../../../components/Badge'
 import Spinner from '../../../components/Spinner'
 import toast from 'react-hot-toast'
 
-const TABS = ['linkedin', 'x']
+const TABS = ['linkedin']
 
 export default function PostPage() {
   const { id } = useParams()
@@ -28,7 +28,7 @@ export default function PostPage() {
 
   const handleApprove = () => {
     approve(activeTab, {
-      onSuccess: () => toast.success(`${activeTab === 'linkedin' ? 'LinkedIn' : 'X'} version approved`),
+      onSuccess: () => toast.success('LinkedIn version approved'),
       onError: () => toast.error('Failed to approve. Try again.'),
     })
   }
@@ -110,7 +110,7 @@ export default function PostPage() {
             loading={approving}
             disabled={activeVersion?.status === 'approved' || activeVersion?.status === 'scheduled'}
           >
-            Approve {activeTab === 'x' ? 'X' : 'LinkedIn'}
+            Approve LinkedIn
           </Button>
           <Button
             size="sm"
