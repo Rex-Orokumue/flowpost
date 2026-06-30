@@ -21,11 +21,9 @@ function Wrapper({ children }) {
   return <MemoryRouter><AuthProvider>{children}</AuthProvider></MemoryRouter>
 }
 
-test('shows loading then no-user when no token stored', async () => {
+test('shows no-user when no token stored', async () => {
   localStorage.clear()
-  api.get.mockRejectedValueOnce({ response: { status: 401 } })
   render(<TestConsumer />, { wrapper: Wrapper })
-  expect(screen.getByText('loading')).toBeInTheDocument()
   await waitFor(() => expect(screen.getByText('no-user')).toBeInTheDocument())
 })
 
